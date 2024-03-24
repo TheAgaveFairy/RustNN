@@ -1,9 +1,7 @@
 mod matrix;
-
-//mod matrix;
-//use crate::matrix;
+use crate::matrix::Matrix;
 fn main() {
-    let test0 = vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0];
+    let test0 = vec![0.0, 1.0, 2.0, 3.0, 4.0, 5.0];
     let test1 = test0.clone();
 
 
@@ -12,7 +10,7 @@ fn main() {
     println!("{}\n", test_matrix0.to_string());
 
     println!("Creating a matrix with {} rows, {} cols, and the data {:?}.",3,2,test1);
-    let test_matrix1 = matrix::new(3, 2, test1).expect("matrix 1 error");
+    let test_matrix1 = matrix::Matrix::new(3, 2, test1).expect("matrix 1 error");
     println!("{}\n", test_matrix1.to_string());
 
     println!("Calculating the dot product of these two matrices:");
@@ -29,7 +27,7 @@ fn main() {
     let added_matrix = result_matrix.add_matrix(&result_matrix).expect("Adding didn't work.");
     println!("Adding this matrix to itself:\n{}\n", added_matrix.to_string());
 
-    let transposed_matrix = added_matrix.transpose();
+    let transposed_matrix = test_matrix0.transpose();
     println!("Transposed version:\n{}\n", transposed_matrix.to_string());
 
     let added_scalar = transposed_matrix.add_scalar(-9.5);

@@ -1,4 +1,3 @@
-mod matrix {
     #[derive(Debug)]
     pub(crate) struct Matrix {
         pub num_rows: usize,
@@ -137,9 +136,20 @@ mod matrix {
         }
         pub(crate) fn transpose(&self) -> Self {
             let mut new_data: Vec<f64> = Vec::with_capacity(self.get_size());
-            for r in 0..self.num_rows {
-                for c in 0..self.num_cols {
-                    new_data.push(self.get(c, r).clone());
+            let mut temp_i: usize = 0;
+            // for r in 0..self.num_rows {
+            //     for c in 0..self.num_cols {
+            //         temp_i = c * self.num_rows + r; // THIS DIDNT WORK
+            //         println!("transpose ti: {}", temp_i);
+            //         new_data.push(self.data[temp_i].clone());
+            //     }
+            // }
+            for i in 0..self.get_size() {
+                new_data.push(self.data[temp_i].clone());
+                if i % 2 == 0 {
+                    temp_i += self.num_cols;
+                } else {
+                    temp_i -= self.num_rows;
                 }
             }
 
@@ -150,4 +160,3 @@ mod matrix {
             }
         }
     }
-}
