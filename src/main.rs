@@ -6,11 +6,11 @@ fn main() {
 
 
     println!("Creating a matrix with {} rows, {} cols, and the data {:?}.",2,3,test0);
-    let test_matrix0 = matrix::Matrix::new(2, 3, test0).expect("matrix 0 error");
+    let test_matrix0 = Matrix::new(2, 3, test0).expect("matrix 0 error");
     println!("{}\n", test_matrix0.to_string());
 
     println!("Creating a matrix with {} rows, {} cols, and the data {:?}.",3,2,test1);
-    let test_matrix1 = matrix::Matrix::new(3, 2, test1).expect("matrix 1 error");
+    let test_matrix1 = Matrix::new(3, 2, test1).expect("matrix 1 error");
     println!("{}\n", test_matrix1.to_string());
 
     println!("Calculating the dot product of these two matrices:");
