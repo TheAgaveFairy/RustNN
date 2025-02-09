@@ -48,18 +48,48 @@ fn main() {
     example().expect("TODO: panic message");
 }
 fn example() -> Result<(), Box<dyn Error>> {
-    let mut rdr = csv::Reader::from_path("data/mnist_test.csv").expect("Error reading csv.");
+    let  rdr = csv::Reader::from_path("data/mnist_test.csv").expect("Error reading csv.");
     let mut i = 0;
     for result in rdr.into_records() {
         if i == 5 {break}
         let record = result?;
         let actual: u8 = record[0].parse().expect("File error.");
-        let mut pixels: Vec<u32> = Vec::new();
+        let mut pixels: Vec<f64> = Vec::new();
         for field in record.iter().skip(1) {
-            pixels.push(field.parse::<u32>()?);
+            pixels.push(field.parse::<f64>()? / 255.0);
         }
-        let sum: u32 = pixels.into_iter().sum();println!("This is a {}. {} pixel sum.", actual, sum);
+        //println!("{} : {:?}", actual, pixels);
         i += 1;
+        println!("{}", actual);
+        print_photo(pixels);
     }
     Ok(())
+}
+
+fn print_photo(arr: Vec<f64>) {
+    let mut temp = String::from("");
+    //let p = "";
+    for v in arr {
+        let p = match v {
+            x if x < 0.10 => ' ',
+            x if x < 0.20 => '.',
+            x if x < 0.30 => ',',
+            x if x < 0.40 => 'x',
+            x if x < 0.50 => 'o',
+            x if x < 0.60 => 'X',
+            x if x < 0.70 => 'O',
+            x if x < 0.80 => '&',
+            x if x < 0.90 => '%',
+            x if x <= 1.0 => '#',
+            _ => panic!("unexpected value at print photo"),
+        };
+        temp += &*p.to_string();
+    }
+    for (i,c) in temp.chars().enumerate() {
+        if i % 28 == 0{
+            println!("");
+        }
+        print!("{}",c);
+    }
+
 }

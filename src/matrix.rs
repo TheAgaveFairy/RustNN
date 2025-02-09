@@ -55,7 +55,7 @@ use rand::{thread_rng, Rng};
             self.data[start..end].to_vec()
         }
         pub(crate) fn get_col(&self, col: usize) -> Vec<f64> {
-            let mut our_col: Vec<f64> = Vec::new();
+            let mut our_col: Vec<f64> = Vec::with_capacity(self.num_rows);
             for i in 0..self.num_rows {
                 our_col.push(*self.get(i, col));
             }
@@ -127,12 +127,11 @@ use rand::{thread_rng, Rng};
         }
         pub(crate) fn transpose(&self) -> Self {
             let mut new_data: Vec<f64> = Vec::with_capacity(self.length());
-            let mut temp_i: usize = 0;
             let new_rows = self.num_cols;
             let new_cols = self.num_rows;
             for r in 0..new_rows {
                 for c in 0..new_cols {
-                    temp_i = c * new_rows + r;
+                    let temp_i = c * new_rows + r;
                     //println!("transpose ti: {}", Self::calc_new_index(r,c,new_rows, new_cols));
                     new_data.push(self.data[temp_i].clone());
                 }
@@ -145,7 +144,7 @@ use rand::{thread_rng, Rng};
             }
         }
         pub(crate) fn map(&self, function: &dyn Fn(f64) -> f64) -> Self {
-            let mut new_data: Vec<f64> = self.data.clone().into_iter().map(
+            let new_data: Vec<f64> = self.data.clone().into_iter().map(
                 |val| function(val)).collect();
 
             Matrix {
